@@ -1,6 +1,10 @@
+# platformer-game
+2D Platformer game in java
+
+<<<<<<< HEAD
 ## Getting Started
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+to test or run game run the `Game.java` file in `src/Main/`
 
 ## Folder Structure
 
@@ -16,3 +20,6 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 ## Dependency Management
 
 The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+=======
+
+>>>>>>> c479c00a651b62d739881e431f97eab9d15402e2

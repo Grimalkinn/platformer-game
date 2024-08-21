@@ -9,7 +9,7 @@ import java.util.Properties;
 import Main.Panel;
 
 
-public class KeyInputs implements KeyListener {
+public class KeyInputs implements KeyListener { // rating /10
 
     private HashMap<String, String> map;
     public Panel panel;
@@ -18,7 +18,7 @@ public class KeyInputs implements KeyListener {
     public KeyInputs(Panel panel) {
         map = new HashMap<>();
         this.panel = panel;
-        readKeybinds("Keybindings.txt");
+        readKeybinds("user_key_bindings.txt");
         System.out.println(map);
     }
 
@@ -52,7 +52,7 @@ public class KeyInputs implements KeyListener {
     public void toggleKeyPress(KeyEvent e, boolean state){
         String action = (String.valueOf(e.getKeyChar())).toUpperCase();
         for (int i = 0; i < keyBindings.length; i++) {
-            if (action.equals(map.get(keyBindings[i]))){  panel.toggleMovement(i, state); }
+            if (action.equals(map.get(keyBindings[i]))){  panel.toggleMovement(i, state); break; }
         }
     }
                

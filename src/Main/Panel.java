@@ -3,92 +3,83 @@ package Main;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import inputs.KeyInputs;
+import assets.Assets;
 
 public class Panel extends JPanel{
-    private int i = 0, timer = 0;
     public BufferedImage walkImg;
-    private BufferedImage[] images;
-    private KeyInputs inputs;
 
-    private int deltaX, deltaY;
+    private KeyInputs inputs;
+    Assets assets;
+
     private boolean[] movement;  // UP, DOWN, LEFT, RIGHT;
+    private int deltaX, deltaY;
+    private int nextFrame = 0, timer = 0;
 
     public Panel(){
         inputs = new KeyInputs(this);
+
+        assets = new Assets();
         
         addKeyListener(inputs);
         setPreferredSize(new Dimension(1000, 600));
+
 
         deltaX = 0; deltaY = 0;
         
         movement = new boolean[4];
         for (int i = 0; i < movement.length; i++) movement[i] = false;
         
-        // load images
-        walkImg = loadImg("Soldier/Walk.png");
     }
 
 
     public void navigate(int value){
         if (movement[0]) deltaY -= value;
-        if (movement[1]) deltaY += value;
-        if (movement[2]) deltaX -= value;
-        if (movement[3]) deltaX += value;
+        else if (movement[1]) deltaY += value;
+        else if (movement[2]) deltaX -= value;
+        else if (movement[3]) deltaX += value;
+        // else deltaX = deltaY = 0;
     }
 
-    public void toggleMovement(int motionIndex, boolean state){ movement[motionIndex] = state; }
-
-    
-    private BufferedImage loadImg(String filename) {
-        InputStream IS = getClass().getResourceAsStream("/assets/sprites2D/"+filename);
-        try {
-            BufferedImage img = ImageIO.read(IS);
-            return img;
-        } catch (Exception ex) {
-            System.out.println("Error::loadImg::["+ex+"]");
-            return null;
-        } 
+    public void toggleMovement(int motionIndex, boolean state){ 
+        movement[motionIndex] = state; 
     }
-   
+
+    public void updateLocation(int xval, int yval) {
+        deltaX += xval;
+        deltaY += yval;
+    }
+
         
     public void updateGame(Object object) {
-        int res = 64;
         
-        // BufferedImage walkSubImg = walkImg.getSubimage(0,0,res,res);
-        // // image.drawImage(walkSubImg, 0, 0,size, size, null);
-        // image.drawImage(walkImg.getSubimage(0,0,res,res), res, 0,size, size, null);
-        // image.drawImage(walkImg.getSubimage(64,0,res,res), 0+inputs.getPos()[0], 0+inputs.getPos()[1],size, size, null);
-        
-        //animation
-        images = new BufferedImage[8];
-        for (int i = 0; i < images.length; i++) {
-            images[i] = walkImg.getSubimage(res*i,0,res,res);
-        }
-                
-        timer++;
-        if (timer > 15) { // 120 fps / 8 num of animations per second
-            timer = 0;
-            i++;
-        }
-        if (i>=images.length) i = 0;
+        // for (int i = 0; i < movement.length; i++) movement[i] = false;
+        // bindings = new KeyBindings(this);
 
-        repaint();
         
+    }
+
+    public int animFramez(int framez) {
+        timer++;
+        if (timer > (120/framez)) { // 120 fps / 8 num of animations per second
+            timer = 0;
+            nextFrame++;
+        }
+        if (nextFrame>=assets.walkAnim.length) nextFrame = 0;
+        return nextFrame;
     }
     
     public void paintComponent(Graphics image) { // draw on window
+        requestFocus(true);
         super.paintComponent(image);
 
         int size = 64 * 3;
         
         navigate(2);
-        image.drawImage(images[i], deltaX, deltaY,size, size, null);
+        image.drawImage(assets.walkAnim[animFramez(8)], 100+deltaX, 100+deltaY,size, size, null);
 
     }
 

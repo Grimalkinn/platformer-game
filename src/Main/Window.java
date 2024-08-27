@@ -54,7 +54,7 @@ public class Window implements Runnable{
                 System.out.println("[FPS: "+frames+"]|[UPS: "+updates+"]");
                 frames = 0;
                 // System.out.print("\033[H\033[2J"); System.out.flush();
-        }
+            }
          
         }
         

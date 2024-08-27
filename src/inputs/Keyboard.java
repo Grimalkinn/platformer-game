@@ -6,18 +6,18 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Properties;
 
-import Main.Panel;
+import entities.Player;
 
 
-public class KeyInputs implements KeyListener { // rating /10
+public class Keyboard implements KeyListener { // rating /10
 
     private HashMap<String, String> map;
-    public Panel panel;
+    public Player player;
     private String[] keyBindings = {"UP","DOWN","LEFT","RIGHT"};
     
-    public KeyInputs(Panel panel) {
+    public Keyboard(Player player) {
         map = new HashMap<>();
-        this.panel = panel;
+        this.player = player;
         readKeybinds("user_key_bindings.txt");
         System.out.println(map);
     }
@@ -52,7 +52,7 @@ public class KeyInputs implements KeyListener { // rating /10
     public void toggleKeyPress(KeyEvent e, boolean state){
         String action = (String.valueOf(e.getKeyChar())).toUpperCase();
         for (int i = 0; i < keyBindings.length; i++) {
-            if (action.equals(map.get(keyBindings[i]))){  panel.toggleMovement(i, state); break; }
+            if (action.equals(map.get(keyBindings[i]))){  player.toggleMovement(i, state); break; }
         }
     }
                
